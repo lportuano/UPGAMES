@@ -46,7 +46,7 @@ var paddleSpeed = 10;
 // Define score properties
 var leftPlayerScore = 0;
 var rightPlayerScore = 0;
-var maxScore = 10;
+var maxScore = 8;
 
 // Listen for keyboard events
 document.addEventListener("keydown", keyDownHandler);
@@ -144,14 +144,14 @@ function update() {
 
   // Check if a player has won
   if (leftPlayerScore === maxScore) {
-    playerWin("Left player");
+    playerWin("El Jugador de la izquierda");
   } else if (rightPlayerScore === maxScore) {
-    playerWin("Right player");
+    playerWin("El Jugador de la derecha");
   }
 }
 
 function playerWin(player) {
-  var message = "Congratulations! " + player + " win!";
+  var message = "Felicidades! " + player + " gano!";
   $("#message").text(message); // Set the message text
   $("#message-modal").modal("show"); // Display the message modal
   reset();
@@ -198,8 +198,8 @@ function draw() {
   );
 
   // Draw scores
-  ctx.fillText("Score: " + leftPlayerScore, 10, 20);
-  ctx.fillText("Score: " + rightPlayerScore, canvas.width - 70, 20);
+  ctx.fillText("Puntuacion: " + leftPlayerScore, 10, 20);
+  ctx.fillText("Puntuacion: " + rightPlayerScore, canvas.width - 100, 20);
 }
 
 // Game loop

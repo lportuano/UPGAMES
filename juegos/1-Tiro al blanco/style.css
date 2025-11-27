@@ -10,7 +10,15 @@ svg{
 	left:0;
 }
 span{
-	color:white;
+	color:rgb(0, 240, 0);
 	font-family:sans-serif;
-	opacity:.3;
+	margin-top: 50px;
+	
+}
+
+.titulo {
+  text-align: center;
+  margin-bottom: 50px;
+  margin-top: 50px;
+  color: aliceblue;
 }

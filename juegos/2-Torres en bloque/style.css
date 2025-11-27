@@ -105,3 +105,10 @@ body {
 #container.ended .game-over p {
   transition-delay: 0.3s;
 }
+
+.titulo {
+  text-align: center;
+  margin-bottom: 50px;
+  margin-top: 50px;
+  color: aliceblue;
+}

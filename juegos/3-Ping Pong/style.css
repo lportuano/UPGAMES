@@ -31,8 +31,15 @@
 
 .control {
   text-align: center;
+  color: white;
 }
 
 canvas {
   background: #000;
+}
+
+.titulo {
+  text-align: center;
+  margin-bottom: 50px;
+  margin-top: 50px;
 }
