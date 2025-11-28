@@ -228,6 +228,7 @@ body {
     font-weight: bold;
     color: #8c1a9b;
     margin-bottom: 10px;
+    margin-top: -50px;
     letter-spacing: 1px;
 }
 
@@ -285,10 +286,12 @@ body {
     
     .upgames-section {
         text-align: center;
+        margin-top: -100px;
     }
     
     .upgames-text {
         font-size: 3rem;
+        margin-top: -100px;
     }
     
     .white-box {
