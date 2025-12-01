@@ -154,8 +154,8 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 15px 40px;
-    background-color: #fff;
-    border-bottom: 2px solid #e0e0e0;
+    background-color: #ffffff;
+    border-bottom: 2px solid #ffffff;
 }
 
 .logo-container {
@@ -173,7 +173,7 @@ body {
 .logo-text {
     font-size: 1.5rem;
     font-weight: bold;
-    color: #222;
+    color: #ffffff;
 }
 
 .nav-links {
@@ -183,7 +183,7 @@ body {
 
 .nav-link {
     text-decoration: none;
-    color: #333;
+    color: #ffffff;
     font-weight: 500;
     font-size: 1rem;
     padding: 5px 0;
@@ -297,4 +297,20 @@ body {
     .white-box {
         height: 200px;
     }
+}
+
+
+
+
+/* Barra de navegación */
+.barra-navegacion nav strong {
+    color: #ffffff; /* Blanco por defecto */
+    font-weight: 500;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: color 0.3s ease; /* Animación suave */
+}
+
+.barra-navegacion nav strong:hover {
+    color: #800080; /* Morado al pasar el mouse */
 }
