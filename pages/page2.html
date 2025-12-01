@@ -2,69 +2,125 @@
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UPGAMES - Videojuego</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UPGAMES - Videojuego</title>
 
-    <link rel="stylesheet" href="/css/styles.css">
-    <link rel="stylesheet" href="/css/tarjetas.css">
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="/css/tarjetas.css">
+  <link rel="stylesheet" href="/css/comentarios.css">
 
 </head>
 
 <body>
-    <header class="barra-navegacion">
-        <div class="contenedor" style="display:flex; align-items:center; gap:20px; padding:12px 16px;">
+  <header class="barra-navegacion">
+    <div class="contenedor" style="display:flex; align-items:center; gap:20px; padding:12px 16px;">
 
-            <img src="/imagenes/WhatsApp Image 2025-11-09 at 8.27.58 PM 1.jpeg" class alt="UpGames"
-                style="width:80px; height:80px; border-radius:8px; object-fit:cover;" />
+      <img src="/imagenes/WhatsApp Image 2025-11-09 at 8.27.58 PM 1.jpeg" class alt="UpGames"
+        style="width:80px; height:80px; border-radius:8px; object-fit:cover;" />
 
-            <nav style="display:flex; gap:24px;">
-                <a href="/index.html"><strong>Inicio</strong></a>
-                <strong>Puzzle</strong>
-                <strong>Accion</strong>
-                <strong>Rompecabezas</strong>
-                <strong>Comentarios</strong>
-            </nav>
+      <nav style="display:flex; gap:24px;">
+        <a href="/index.html">
+          <strong>Inicio</strong>
+        </a>
 
-        </div>
-    </header>
+        <a href="/pages/puzzle.html">
+          <strong>Puzzle</strong>
+        </a>
 
-<main>
+        <a href="/pages/accion.html">
+          <strong>Accion</strong>
+        </a>
+
+        <a href="/pages/rompecabezas.html">
+          <strong>Rompecabezas</strong>
+        </a>
+
+        <a href="/pages/comentarios.html">
+          <strong>Comentarios</strong>
+        </a>
+      </nav>
+
+    </div>
+  </header>
+
+  <main>
     <div class="content-container">
-    <!-- Sección izquierda -->
-    <div class="left-section">
-      
-      <div class="upgames-section">
-        <h2 class="upgames-text">UPGAMES</h2>
+      <!-- Comentarios a la izquierda -->
+      <div class="left-section" style="flex:1;">
+        <div class="comentarios-container" style="display:flex; flex-direction:column; gap:16px;">
+
+          <!-- Lista de comentarios -->
+          <div class="comentarios-lista" id="lista-comentarios">
+            <h3>Comentarios del juego</h3>
+          </div>
+
+          <!-- Formulario para añadir comentario -->
+          <div class="formulario-comentario">
+            <h3>Añadir comentario</h3>
+            <textarea id="nuevo-comentario" placeholder="Escribe tu reseña..."></textarea>
+            <button onclick="agregarComentario('Tiro al Blanco')">Publicar</button>
+          </div>
+        </div>
       </div>
-    </div>
 
-    <div class="right-section">
-      <div class="white-box">
-        
-        <div class="card">
-          <h5 class="card-title">Tiro al blanco</h5>
+      <script>
+        function cargarComentarios(juego) {
+          const comentarios = JSON.parse(localStorage.getItem('comentarios')) || {};
+          const lista = document.getElementById('lista-comentarios');
+          lista.innerHTML = '<h3>Comentarios del juego</h3>';
+          if (comentarios[juego]) {
+            comentarios[juego].slice(-10).forEach(c => {
+              lista.innerHTML += `<div class="comentario">${c}</div>`;
+            });
+          } else {
+            lista.innerHTML += '<p>No hay comentarios aún.</p>';
+          }
+        }
 
-          <figure class="figure">
-            <img src="https://play-lh.googleusercontent.com/u8qGQrI35Os1j8LhFhL_VfKGjVVzHsPkyg8ku5w2FQ3oty0Ei6CaPhSbiMDnBw8q3Dc" alt="">
-          </figure>
+        function agregarComentario(juego) {
+          const texto = document.getElementById('nuevo-comentario').value.trim();
+          if (!texto) return alert('Escribe un comentario');
+          const comentarios = JSON.parse(localStorage.getItem('comentarios')) || {};
+          if (!comentarios[juego]) comentarios[juego] = [];
+          comentarios[juego].push(texto);
+          localStorage.setItem('comentarios', JSON.stringify(comentarios));
+          document.getElementById('nuevo-comentario').value = '';
+          cargarComentarios(juego);
+        }
 
-          <p class="card-p">
-            Demuestra tu punteria en "Tiro al Blanco", un emocionante juego donde debes acertar al objetivo que aparecen en pantalla.
-            Mejora tu precisión y compite por la mejor puntuación.
-          </p>
-          <br>
-          <p class="card-p">¡Aceptas el desafío</p>
+        cargarComentarios('Tiro al Blanco');
+      </script>
 
-          <a class="card-b" href="/juegos/1-Tiro al blanco/index.html" target="_blank" rel="noopener noreferrer">
-            <button class="button">Juega</button>
-          </a>
+      <div class="right-section">
+        <div class="white-box">
 
+          <div class="card">
+            <h5 class="card-title">Tiro al blanco</h5>
+
+            <figure class="figure">
+              <img
+                src="https://play-lh.googleusercontent.com/u8qGQrI35Os1j8LhFhL_VfKGjVVzHsPkyg8ku5w2FQ3oty0Ei6CaPhSbiMDnBw8q3Dc"
+                alt="">
+            </figure>
+
+            <p class="card-p">
+              Demuestra tu punteria en "Tiro al Blanco", un emocionante juego donde debes acertar al objetivo que
+              aparecen en pantalla.
+              Mejora tu precisión y compite por la mejor puntuación.
+            </p>
+            <br>
+            <p class="card-p">¡Aceptas el desafío</p>
+
+            <a class="card-b" href="/juegos/1-Tiro al blanco/index.html" target="_blank" rel="noopener noreferrer">
+              <button class="button">Juega</button>
+            </a>
+
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</main>
+  </main>
 
 </body>
 
