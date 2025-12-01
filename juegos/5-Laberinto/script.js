@@ -329,11 +329,11 @@ function resetGame() {
       `;
 
   if (hardMode) {
-    noteElement.innerHTML = `Click the joystick to start!
-          <p>Hard mode, Avoid black holes. Back to easy mode? Press E</p>`;
+    noteElement.innerHTML = `¡Haga clic en el joystick para comenzar!
+          <p>Modo difícil: Evita los agujeros negros. ¿Volver al modo fácil? Pulsa E.</p>`;
   } else {
-    noteElement.innerHTML = `Click the joystick to start!
-          <p>Move every ball to the center. Ready for hard mode? Press H</p>`;
+    noteElement.innerHTML = `¡Haga clic en el joystick para comenzar!
+          <p> Mueve cada bola al centro. ¿Listo para el modo difícil? Pulsa H</p>`;
   }
   noteElement.style.opacity = 1;
 
@@ -630,7 +630,7 @@ function main(timestamp) {
             if (distance <= holeSize / 2) {
               // The ball fell into a hole
               holeElements[hi].style.backgroundColor = "red";
-              throw Error("The ball fell into a hole");
+              throw Error("La pelota cayó en un agujero");
             }
           });
         }
@@ -652,14 +652,8 @@ function main(timestamp) {
         (ball) => distance2D(ball, { x: 350 / 2, y: 315 / 2 }) < 65 / 2
       )
     ) {
-      noteElement.innerHTML = `Congrats, you did it!
-          ${!hardMode ? "<p>Press H for hard mode</p>" : ""}
-          <p>
-            Follow me
-            <a href="https://twitter.com/HunorBorbely" , target="_blank"
-              >@HunorBorbely</a
-            >
-          </p>`;
+      noteElement.innerHTML = `¡Felicitaciones, lo lograste!
+          ${!hardMode ? "<p>Presione H para el modo dificil</p>" : ""}         `;
       noteElement.style.opacity = 1;
       gameInProgress = false;
     } else {
@@ -667,10 +661,11 @@ function main(timestamp) {
       window.requestAnimationFrame(main);
     }
   } catch (error) {
-    if (error.message == "The ball fell into a hole") {
-      noteElement.innerHTML = `A ball fell into a black hole! Press space to reset the game.
+    if (error.message == "La pelota cayó en un agujero") {
+      noteElement.innerHTML = `¡Una pelota cayó en un agujero negro! Pulsa la barra espaciadora para reiniciar el juego.
+
           <p>
-           Back to easy? Press E
+           Volver al modo Facil? Presiona E
           </p>`;
       noteElement.style.opacity = 1;
       gameInProgress = false;

@@ -12,6 +12,7 @@ body {
   justify-content: center;
   min-height: 100vh;
   background: #E3F2FD;
+  
 }
 .wrapper {
   width: 65vmin;
@@ -20,9 +21,10 @@ body {
   overflow: hidden;
   flex-direction: column;
   justify-content: center;
-  border-radius: 5px;
+  border-radius: 20px;
   background: #293447;
   box-shadow: 0 20px 40px rgba(52, 87, 220, 0.2);
+  margin-left: 80px;
 }
 .game-details {
   color: #B8C6DC;
@@ -38,6 +40,7 @@ body {
   display: grid;
   background: #212837;
   grid-template: repeat(30, 1fr) / repeat(30, 1fr);
+  
 }
 .play-board .food {
   background: #FF003D;
@@ -126,4 +129,9 @@ body {
   .wordmark span {
     font-size: clamp(48px, 14vw, 120px);
   }
+}
+
+.titulo {
+  text-align: center;
+  margin-right: 100px;
 }

@@ -1,16 +1,16 @@
 body {
-  overflow: hidden;
-  background: #d7d7d7;
+  overflow: hidden; 
+  background: #0d062c;
 }
 #tetris {
   width: 360px;
-  border: 1px solid black;
+  border: 1px solid rgb(255, 255, 255);
   padding: 20px;
 }
 #canvas {
   width: 200px;
   height: 440px;
-  background-color: #000;
+  background-color: #000000;
   position: relative;
   color: #fff;
 }
@@ -28,11 +28,11 @@ body {
 
 #start {
   animation: blink 0.7s steps(2, start) infinite;
-  background: #e1ff5f;
+  background: #5cc914;
   border-radius: 2px;
-  color: #202020;
+  color: #292929;
   cursor: pointer;
-  font-size: 28px;
+  font-size: 20px;
 }
 
 @keyframes blink {
@@ -74,16 +74,31 @@ body {
 }
 #next_shape {
   position: relative;
-  background-color: #000;
-  border: 1px solid white;
+  background-color: #000000;
+  border: 2px solid white;
   width: 110px;
   height: 110px;
+  margin-bottom: 20px;
 }
 #info {
-  background-color: #000;
+  background-color: #000000;
   color: #fff;
   float: right;
   width: 110px;
   height: 420px;
-  padding: 10px;
+  padding: 5px;
+}
+
+.titulo {
+  text-align: center;
+  margin-bottom: 50px;
+  margin-top: 50px;
+  margin-right: 100px;
+}
+
+.juegoCentrado {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }

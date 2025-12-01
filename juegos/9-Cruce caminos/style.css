@@ -10,7 +10,7 @@ button {
   outline: none;
   cursor: pointer;
   border: none;
-  box-shadow: 3px 5px 0px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 3px 5px 0px 0px rgba(2, 2, 2, 0.75);
 }
 #counter {
   position: absolute;
@@ -56,3 +56,4 @@ button {
 #controlls button:first-of-type {
   grid-column: 1/-1;
 }
+
