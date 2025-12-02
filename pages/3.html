@@ -61,37 +61,318 @@
           <div class="formulario-comentario">
             <h3>Añadir comentario</h3>
             <textarea id="nuevo-comentario" placeholder="Escribe tu reseña..."></textarea>
-            <button onclick="agregarComentario('3 en Raya')">Publicar</button>
+            <button onclick="agregarComentarioSeguro('3 en Raya')">Publicar</button>
+            <div id="mensaje-error" style="color: red; margin-top: 10px; display: none;"></div>
           </div>
         </div>
       </div>
 
+      <!-- SISTEMA DE CAPTURA DE ERRORES Y FILTRO DE OBSCENIDADES -->
       <script>
-        function cargarComentarios(juego) {
-          const comentarios = JSON.parse(localStorage.getItem('comentarios')) || {};
-          const lista = document.getElementById('lista-comentarios');
-          lista.innerHTML = '<h3>Comentarios del juego</h3>';
-          if (comentarios[juego]) {
-            comentarios[juego].slice(-10).forEach(c => {
-              lista.innerHTML += `<div class="comentario">${c}</div>`;
+        // ==============================================
+        // SISTEMA DE CAPTURA DE ERRORES GLOBAL
+        // ==============================================
+        (() => {
+          'use strict';
+          
+          console.log('🎮 Sistema de captura de errores activado para 3 en Raya');
+          
+          // 1. Capturar errores de JavaScript
+          window.addEventListener('error', (event) => {
+            console.error('🚨 ERROR EN JUEGO:', {
+              juego: '3 en Raya',
+              mensaje: event.message,
+              archivo: event.filename || 'Desconocido',
+              linea: event.lineno,
+              columna: event.colnum,
+              error: event.error?.stack || 'Sin stack trace',
+              hora: new Date().toLocaleTimeString()
             });
-          } else {
-            lista.innerHTML += '<p>No hay comentarios aún.</p>';
+            
+            event.preventDefault();
+            return true;
+          });
+          
+          // 2. Capturar promesas rechazadas
+          window.addEventListener('unhandledrejection', (event) => {
+            console.error('🚨 PROMESA RECHAZADA EN JUEGO:', {
+              juego: '3 en Raya',
+              razon: event.reason?.message || event.reason || 'Razón desconocida',
+              hora: new Date().toLocaleTimeString()
+            });
+          });
+          
+          // 3. Función segura para usar en el juego
+          window.ejecutarSeguro = (funcion, nombre = 'Función del juego') => {
+            try {
+              return funcion();
+            } catch (error) {
+              console.error(`🚨 ERROR EN ${nombre}:`, {
+                mensaje: error.message,
+                stack: error.stack,
+                hora: new Date().toLocaleTimeString()
+              });
+              return null;
+            }
+          };
+          
+          console.log('✅ Sistema listo para capturar errores');
+        })();
+      </script>
+
+      <script>
+        // ==============================================
+        // SISTEMA DE FILTRO DE PALABRAS OBSCENAS
+        // ==============================================
+        
+        // Lista de palabras prohibidas (puedes ampliar esta lista)
+        const PALABRAS_PROHIBIDAS = [
+          'idiota', 'estúpido', 'imbécil', 'tonto', 'mierda', 'carajo',
+          'joder', 'coño', 'puta', 'cabrón', 'pendejo', 'malparido',
+          'hijueputa', 'marica', 'culero', 'verga', 'picha', 'concha',
+          // Variaciones con asteriscos
+          'id**ta', 'est****o', 'imb***il', 't**to', 'mier**', 'cara*o',
+          'jo**r', 'co*o', 'pu*a', 'cab*ón', 'pend***o', 'malp****o',
+          // Insultos comunes en juegos
+          'noob', 'n00b', 'camper', 'hacker', 'cheater', 'tramposo'
+        ];
+        
+        // Función para detectar palabras obscenas
+        function contienePalabrasObscenas(texto) {
+          if (!texto) return false;
+          
+          const textoMinusculas = texto.toLowerCase();
+          
+          // Eliminar caracteres especiales para mejor detección
+          const textoLimpio = textoMinusculas
+            .replace(/[^a-z0-9áéíóúüñ\s]/g, '')
+            .replace(/\s+/g, ' ');
+          
+          // Buscar palabras prohibidas
+          for (const palabra of PALABRAS_PROHIBIDAS) {
+            const regex = new RegExp(`\\b${palabra.replace(/\*/g, '.')}\\b`, 'i');
+            if (regex.test(textoLimpio)) {
+              return {
+                encontrada: true,
+                palabra: palabra,
+                textoOriginal: texto
+              };
+            }
+          }
+          
+          // Buscar intentos de evadir el filtro (letras repetidas, etc.)
+          const patronesEvasion = [
+            /(.)\1{3,}/g, // Letras repetidas más de 3 veces: "estuuuuupido"
+            /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{3,}/g, // Muchos caracteres especiales
+            /\b\w*[xX]{3,}\w*\b/g // Palabras con muchas X: "juegoxxxx"
+          ];
+          
+          for (const patron of patronesEvasion) {
+            if (patron.test(textoMinusculas)) {
+              return {
+                encontrada: true,
+                palabra: 'PATRÓN DE EVASIÓN',
+                textoOriginal: texto
+              };
+            }
+          }
+          
+          return { encontrada: false };
+        }
+        
+        // Función para registrar error de obscenidad en consola
+        function registrarErrorObscenidad(detalles) {
+          const hora = new Date().toLocaleTimeString();
+          const estiloTitulo = 'background: #ff0000; color: white; padding: 2px 6px; border-radius: 3px; font-weight: bold;';
+          const estiloDetalle = 'color: #ff6b6b;';
+          
+          console.group(`🚫 ERROR: COMENTARIO OBSCENO - ${hora}`);
+          console.log('%cINTENTO DE PUBLICAR COMENTARIO INAPROPIADO', estiloTitulo);
+          console.log('%cPalabra prohibida detectada:', estiloDetalle, detalles.palabra);
+          console.log('%cTexto del comentario:', estiloDetalle, detalles.textoOriginal);
+          console.log('%cUsuario bloqueado:', estiloDetalle, 'Comentario no publicado');
+          console.log('%cAcción tomada:', estiloDetalle, 'Filtro activado - Comentario rechazado');
+          console.groupEnd();
+          
+          // También podemos guardar estos intentos
+          guardarIntentoObscenidad(detalles);
+        }
+        
+        // Función para guardar intentos de obscenidad (opcional)
+        function guardarIntentoObscenidad(detalles) {
+          try {
+            const intentos = JSON.parse(localStorage.getItem('upgames_intentos_obscenos')) || [];
+            intentos.push({
+              ...detalles,
+              fecha: new Date().toISOString(),
+              pagina: window.location.href
+            });
+            
+            // Mantener solo los últimos 100 intentos
+            if (intentos.length > 100) {
+              intentos.splice(0, intentos.length - 100);
+            }
+            
+            localStorage.setItem('upgames_intentos_obscenos', JSON.stringify(intentos));
+          } catch (e) {
+            console.log('No se pudo guardar el intento de obscenidad:', e);
           }
         }
-
-        function agregarComentario(juego) {
-          const texto = document.getElementById('nuevo-comentario').value.trim();
-          if (!texto) return alert('Escribe un comentario');
-          const comentarios = JSON.parse(localStorage.getItem('comentarios')) || {};
-          if (!comentarios[juego]) comentarios[juego] = [];
-          comentarios[juego].push(texto);
-          localStorage.setItem('comentarios', JSON.stringify(comentarios));
-          document.getElementById('nuevo-comentario').value = '';
-          cargarComentarios(juego);
+        
+        // Mostrar mensaje de error al usuario
+        function mostrarErrorUsuario(mensaje) {
+          const errorDiv = document.getElementById('mensaje-error');
+          if (errorDiv) {
+            errorDiv.textContent = mensaje;
+            errorDiv.style.display = 'block';
+            
+            // Ocultar después de 5 segundos
+            setTimeout(() => {
+              errorDiv.style.display = 'none';
+            }, 5000);
+          }
         }
-
-        cargarComentarios('3 en Raya');
+        
+        // ==============================================
+        // FUNCIONES DEL JUEGO MODIFICADAS
+        // ==============================================
+        
+        function cargarComentarios(juego) {
+          return window.ejecutarSeguro(() => {
+            const comentarios = JSON.parse(localStorage.getItem('comentarios')) || {};
+            const lista = document.getElementById('lista-comentarios');
+            lista.innerHTML = '<h3>Comentarios del juego</h3>';
+            
+            if (comentarios[juego]) {
+              // Filtrar comentarios aprobados (en caso de que haya viejos que ahora sean obscenos)
+              const comentariosAprobados = comentarios[juego].filter(comentario => {
+                return !contienePalabrasObscenas(comentario).encontrada;
+              });
+              
+              comentariosAprobados.slice(-10).forEach(c => {
+                lista.innerHTML += `<div class="comentario">${c}</div>`;
+              });
+            } else {
+              lista.innerHTML += '<p>No hay comentarios aún.</p>';
+            }
+            
+            return comentarios[juego] || [];
+          }, 'cargarComentarios');
+        }
+        
+        function agregarComentarioSeguro(juego) {
+          return window.ejecutarSeguro(() => {
+            const textoInput = document.getElementById('nuevo-comentario');
+            const texto = textoInput.value.trim();
+            
+            // Validación básica
+            if (!texto) {
+              mostrarErrorUsuario('Por favor, escribe un comentario');
+              return false;
+            }
+            
+            if (texto.length < 3) {
+              mostrarErrorUsuario('El comentario debe tener al menos 3 caracteres');
+              return false;
+            }
+            
+            if (texto.length > 500) {
+              mostrarErrorUsuario('El comentario no puede exceder los 500 caracteres');
+              return false;
+            }
+            
+            // Verificar palabras obscenas
+            const resultadoFiltro = contienePalabrasObscenas(texto);
+            
+            if (resultadoFiltro.encontrada) {
+              // REGISTRAR ERROR EN CONSOLA
+              registrarErrorObscenidad(resultadoFiltro);
+              
+              // Mostrar mensaje al usuario (sin decir la palabra exacta)
+              mostrarErrorUsuario('Tu comentario contiene lenguaje inapropiado. Por favor, modifícalo.');
+              
+              // Limpiar el campo (opcional)
+              textoInput.value = '';
+              textoInput.focus();
+              
+              return false;
+            }
+            
+            // Si pasa el filtro, guardar el comentario
+            const comentarios = JSON.parse(localStorage.getItem('comentarios')) || {};
+            if (!comentarios[juego]) comentarios[juego] = [];
+            comentarios[juego].push(texto);
+            
+            localStorage.setItem('comentarios', JSON.stringify(comentarios));
+            textoInput.value = '';
+            cargarComentarios(juego);
+            
+            // Mostrar mensaje de éxito
+            mostrarErrorUsuario('✅ Comentario publicado exitosamente');
+            document.getElementById('mensaje-error').style.color = 'green';
+            
+            setTimeout(() => {
+              document.getElementById('mensaje-error').style.display = 'none';
+            }, 3000);
+            
+            return true;
+          }, 'agregarComentario');
+        }
+        
+        // Función original para compatibilidad
+        function agregarComentario(juego) {
+          return agregarComentarioSeguro(juego);
+        }
+        
+        // ==============================================
+        // INICIALIZACIÓN
+        // ==============================================
+        
+        document.addEventListener('DOMContentLoaded', () => {
+          cargarComentarios('3 en Raya');
+          
+          // Añadir evento de tecla Enter para publicar
+          document.getElementById('nuevo-comentario').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+              e.preventDefault();
+              agregarComentarioSeguro('3 en Raya');
+            }
+          });
+          
+          // Mostrar mensaje de bienvenida del filtro
+          console.log('🔒 Filtro de lenguaje activado. Palabras prohibidas:', PALABRAS_PROHIBIDAS.length);
+        });
+        
+        // ==============================================
+        // FUNCIONES DE PRUEBA (para probar desde consola)
+        // ==============================================
+        
+        // Función para probar el filtro desde la consola
+        window.probarFiltro = (texto) => {
+          const resultado = contienePalabrasObscenas(texto);
+          if (resultado.encontrada) {
+            console.log(`🚫 Detectado: "${resultado.palabra}" en: "${texto}"`);
+          } else {
+            console.log(`✅ Aprobado: "${texto}"`);
+          }
+          return resultado;
+        };
+        
+        // Función para ver intentos de obscenidad
+        window.verIntentosObscenos = () => {
+          const intentos = JSON.parse(localStorage.getItem('upgames_intentos_obscenos')) || [];
+          console.log('📊 Intentos de comentarios obscenos:', intentos.length);
+          intentos.forEach((intento, i) => {
+            console.log(`Intento ${i + 1}:`, intento);
+          });
+          return intentos;
+        };
+        
+        // Función para limpiar intentos
+        window.limpiarIntentosObscenos = () => {
+          localStorage.removeItem('upgames_intentos_obscenos');
+          console.log('🧹 Intentos de obscenidad limpiados');
+        };
       </script>
 
       <div class="right-section">
@@ -123,6 +404,35 @@
     </div>
   </main>
 
+  <!-- CÓDIGO PARA PROBAR (opcional - eliminar en producción) -->
+  <script>
+    // Prueba automática del sistema
+    setTimeout(() => {
+      console.log('=== PRUEBA DEL FILTRO DE OBSCENIDADES ===');
+      console.log('Escribe en la consola: probarFiltro("tu texto aquí")');
+      console.log('Para ver intentos: verIntentosObscenos()');
+      
+      // Ejemplos de prueba
+      const pruebas = [
+        'Este juego es genial',
+        'Eres un idiota',
+        'Qué estúpido juego',
+        'Me encanta, es divertido',
+        'Qué mierda de juego',
+        'Excelente trabajo'
+      ];
+      
+      pruebas.forEach(texto => {
+        const resultado = contienePalabrasObscenas(texto);
+        if (resultado.encontrada) {
+          console.log(`❌ Rechazado: "${texto}"`);
+        } else {
+          console.log(`✅ Aprobado: "${texto}"`);
+        }
+      });
+    }, 2000);
+  </script>
+  
 </body>
 
 </html>
