@@ -319,7 +319,6 @@ body {
 }
 
 .barra-navegacion nav strong:hover {
-<<<<<<< HEAD
   color: #800080;
 }
 
@@ -345,7 +344,3 @@ body {
     border: 1px solid #641b83cc;
 }
 
-=======
-    color: #800080; /* Morado al pasar el mouse */
-}
->>>>>>> 3ac23966c3cdaf90206d83e54539819f0f697093
