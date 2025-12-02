@@ -1,50 +1,54 @@
-
-:root{
+:root {
   --bg-1: #0a0d1a;
   --bg-2: #0f1220;
   --texto: #eaf0ff;
   --muted: #9aa6c3;
   --accento: #7b5cff;
-  --borde-tarjeta: rgba(255,255,255,.08);
-  --sombra-sm: 0 6px 18px rgba(0,0,0,.28);
-  --sombra-lg: 0 12px 28px rgba(0,0,0,.35);
+  --borde-tarjeta: rgba(255, 255, 255, .08);
+  --sombra-sm: 0 6px 18px rgba(0, 0, 0, .28);
+  --sombra-lg: 0 12px 28px rgba(0, 0, 0, .35);
 }
 
-*{box-sizing: border-box}
-html,body{
-  margin:0;
+* {
+  box-sizing: border-box
+}
+
+html,
+body {
+  margin: 0;
   background:
-    radial-gradient(1200px 500px at 10% -10%, rgba(123,92,255,.25), transparent 60%),
-    radial-gradient(800px 400px at 90% -20%, rgba(0,213,255,.16), transparent 60%),
+    radial-gradient(1200px 500px at 10% -10%, rgba(123, 92, 255, .25), transparent 60%),
+    radial-gradient(800px 400px at 90% -20%, rgba(0, 213, 255, .16), transparent 60%),
     linear-gradient(180deg, var(--bg-1), var(--bg-2));
   color: var(--texto);
 }
 
-.contenedor{
+.contenedor {
   max-width: 1280px;
   margin: 0 auto;
   padding: 24px clamp(16px, 4vw, 40px);
 }
 
-.marca-palabra{
-  display:flex;
-  justify-content:center;
-  align-items:flex-end;
-  flex-wrap:wrap;
+.marca-palabra {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  flex-wrap: wrap;
   gap: .06em;
-  user-select:none;
-  margin-top: 2px;
+  user-select: none;
+  margin-top: 50px;
   margin-bottom: 50px;
 }
-.marca-palabra span{
-  display:inline-block;
+
+.marca-palabra span {
+  display: inline-block;
   font-family: "Anton", Impact, sans-serif;
   font-weight: 900;
   font-size: clamp(64px, 12vw, 220px);
   line-height: .85;
   text-transform: uppercase;
   color: transparent;
-  
+
   background-size: cover;
   background-position: center;
   margin: 0 .02em;
@@ -54,11 +58,11 @@ html,body{
     0 2px 18px rgb(255, 255, 255);
 }
 
-.separador{
+.separador {
   height: 2px;
   width: 100%;
   margin: clamp(8px, 2vw, 16px) 0 24px;
-  background: linear-gradient(90deg, rgba(123,92,255,.0), rgba(123,92,255,.75), rgba(0,213,255,.75), rgba(123,92,255,.0));
+  background: linear-gradient(90deg, rgba(123, 92, 255, .0), rgba(123, 92, 255, .75), rgba(0, 213, 255, .75), rgba(123, 92, 255, .0));
   border-radius: 2px;
 }
 
@@ -70,7 +74,7 @@ html,body{
   padding: 20px;
 }
 
-.tarjeta{
+.tarjeta {
   width: 250px;
   height: 280px;
   display: flex;
@@ -80,10 +84,13 @@ html,body{
   border: 1px solid var(--borde-tarjeta);
   border-radius: 14px;
   overflow: hidden;
-  box-shadow: var(--sombra-sm);
+  box-shadow:
+    var(--sombra-sm),
+    0 0 20px rgba(123, 92, 255, 0.4),
+    0 0 40px rgba(0, 213, 255, 0.2);
   transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
   will-change: transform;
-  overflow: hidden;
+  margin-bottom: 50px;
 }
 
 .tarjeta img {
@@ -96,33 +103,36 @@ html,body{
   margin-top: 8px;
 }
 
-.tarjeta:hover{
+.tarjeta:hover {
   transform: translateY(-8px);
   box-shadow: var(--sombra-lg);
-  border-color: rgba(123,92,255,.35);
+  border-color: rgba(123, 92, 255, .35);
 }
 
-.miniatura{
+.miniatura {
   width: 100%;
   height: 140px;
   object-fit: cover;
-  display:block;
+  display: block;
   transition: transform .35s ease;
 }
-.tarjeta:hover .miniatura{
+
+.tarjeta:hover .miniatura {
   transform: scale(1.06);
 }
 
-.datos{
+.datos {
   padding: 10px 12px 14px;
 }
-.titulo{
+
+.titulo {
   font-weight: 700;
   font-size: 14px;
   margin: 0 0 4px;
   color: white;
 }
-.subtitulo{
+
+.subtitulo {
   margin: 0;
   font-size: 12px;
   color: var(--muted);
@@ -136,181 +146,201 @@ html,body{
 
 
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Arial', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Arial', sans-serif;
 }
 
 body {
-    background-color: #f0f0f0;
-    color: #333;
-    min-height: 100vh;
+  background-color: #f0f0f0;
+  color: #333;
+  min-height: 100vh;
 }
 
 /* Navbar */
 .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 40px;
-    background-color: #ffffff;
-    border-bottom: 2px solid #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 40px;
+  background-color: #ffffff;
+  border-bottom: 2px solid #ffffff;
 }
 
 .logo-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .logo-img {
-    width: 40px;
-    height: 40px;
-    object-fit: contain;
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
 }
 
 .logo-text {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #ffffff;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ffffff;
 }
 
 .nav-links {
-    display: flex;
-    gap: 30px;
+  display: flex;
+  gap: 30px;
 }
 
 .nav-link {
-    text-decoration: none;
-    color: #ffffff;
-    font-weight: 500;
-    font-size: 1rem;
-    padding: 5px 0;
-    position: relative;
-    transition: color 0.3s;
+  text-decoration: none;
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 5px 0;
+  position: relative;
+  transition: color 0.3s;
 }
 
 .nav-link:hover {
-    color: #007bff;
+  color: #007bff;
 }
 
 /* Contenido principal */
 .content-container {
-    display: flex;
-    min-height: calc(100vh - 70px);
-    padding: 40px;
-    gap: 40px;
+  display: flex;
+  min-height: calc(100vh - 70px);
+  padding: 40px;
+  gap: 40px;
 }
 
 .left-section {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding-left: 20px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 20px;
 }
 
 .title {
-    font-size: 3rem;
-    font-weight: bold;
-    color: #ffffff;
-    margin-bottom: 60px;
-    text-align: left;
+  font-size: 3rem;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 60px;
+  text-align: left;
 }
 
 .upgames-section {
-    text-align: left;
+  text-align: left;
 }
 
 .upgames-text {
-    font-size: 10rem;
-    font-weight: bold;
-    color: #8c1a9b;
-    margin-bottom: 10px;
-    margin-top: -50px;
-    letter-spacing: 1px;
+  font-size: 10rem;
+  font-weight: bold;
+  color: #8c1a9b;
+  margin-bottom: 10px;
+  margin-top: -50px;
+  letter-spacing: 1px;
 }
 
 .videojuego-text {
-    font-size: 1.8rem;
-    color: #666;
-    font-weight: normal;
+  font-size: 1.8rem;
+  color: #666;
+  font-weight: normal;
 }
 
 .right-section {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .white-box {
-    width: 300%;
-    max-width: 400px;
-    height: 500px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 300%;
+  max-width: 400px;
+  height: 500px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Responsive design */
 @media (max-width: 768px) {
-    .navbar {
-        flex-direction: column;
-        gap: 15px;
-        padding: 15px 20px;
-    }
-    
-    .nav-links {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 15px;
-    }
-    
-    .content-container {
-        flex-direction: column;
-        padding: 20px;
-        gap: 30px;
-    }
-    
-    .left-section {
-        padding-left: 0;
-        text-align: center;
-    }
-    
-    .title {
-        text-align: center;
-        font-size: 2.5rem;
-    }
-    
-    .upgames-section {
-        text-align: center;
-        margin-top: -100px;
-    }
-    
-    .upgames-text {
-        font-size: 3rem;
-        margin-top: -100px;
-    }
-    
-    .white-box {
-        height: 200px;
-    }
+  .navbar {
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px 20px;
+  }
+
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+  }
+
+  .content-container {
+    flex-direction: column;
+    padding: 20px;
+    gap: 30px;
+  }
+
+  .left-section {
+    padding-left: 0;
+    text-align: center;
+  }
+
+  .title {
+    text-align: center;
+    font-size: 2.5rem;
+  }
+
+  .upgames-section {
+    text-align: center;
+    margin-top: -100px;
+  }
+
+  .upgames-text {
+    font-size: 3rem;
+    margin-top: -100px;
+  }
+
+  .white-box {
+    height: 200px;
+  }
 }
 
-
-
-
-/* Barra de navegación */
 .barra-navegacion nav strong {
-    color: #ffffff; /* Blanco por defecto */
-    font-weight: 500;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: color 0.3s ease; /* Animación suave */
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: color 0.3s ease;
+
 }
 
 .barra-navegacion nav strong:hover {
-    color: #800080; /* Morado al pasar el mouse */
+  color: #800080;
 }
+
+/* Añadir esto a /css/styles.css */
+.barra-navegacion {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  background-color: rgba(10, 13, 26, 0.85);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 5px rgba(94, 6, 194, 0.5);
+  border-radius: 0 0 20px 20px;
+  padding: 10px 0; /* Ajuste de padding para bordes */
+}
+
+.simboloRedondo {
+    width: 80px;
+    height: 80px;
+    /* Esto es lo que crea la forma redonda */
+    border-radius: 50%; 
+    overflow: hidden;
+    border: 1px solid #641b83cc;
+}
+
