@@ -132,6 +132,7 @@ body {
   font-size: 14px;
   margin: 0 0 4px;
   color: white;
+  
 }
 
 .subtitulo {
@@ -344,5 +345,9 @@ body {
     border-radius: 50%; 
     overflow: hidden;
     border: 1px solid #641b83cc;
+}
+
+.subrayado{
+    text-decoration: none;
 }
 
