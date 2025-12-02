@@ -91,6 +91,7 @@ body {
   transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
   will-change: transform;
   margin-bottom: 50px;
+  margin-left: 80px;
 }
 
 .tarjeta img {
@@ -101,6 +102,7 @@ body {
   border-radius: 8px;
   margin-bottom: 8px;
   margin-top: 8px;
+  margin-left: 5px;
 }
 
 .tarjeta:hover {
